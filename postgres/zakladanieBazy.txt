@@ -1,0 +1,27 @@
+CREATE TABLE IF NOT EXISTS budynki (
+    id SERIAL PRIMARY KEY,
+    adres VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS materialy (
+    id SERIAL PRIMARY KEY,
+    nazwa VARCHAR(255) NOT NULL,
+    cena DECIMAL(10, 2) NOT NULL,
+    jednostka_miary VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS praca (
+    id SERIAL PRIMARY KEY,
+    adres INTEGER NOT NULL REFERENCES budynki(id),
+    data_wykonania DATE NOT NULL,
+    ilosc_godzin INTEGER NOT NULL,
+    dojazd BOOLEAN NOT NULL,
+    vat DECIMAL(5, 2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS praca_materialy (
+    id SERIAL PRIMARY KEY,
+    praca_id INTEGER NOT NULL REFERENCES praca(id),
+    material_id INTEGER NOT NULL REFERENCES materialy(id),
+    ilosc DECIMAL(10, 2) NOT NULL
+);
