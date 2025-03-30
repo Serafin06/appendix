@@ -1,54 +1,49 @@
 package pl.marko.model;
 
 import jakarta.persistence.*;
-;
 
 @Entity
-@Table(name = "praca_materialy")
+@Table(name = "praca_material")
 public class PracaMaterial {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(name = "praca_id")
-    private long pracaId;
+    @ManyToOne
+    @JoinColumn(name = "praca_id", nullable = false)
+    private Praca praca;
 
-    @Column(name = "material_id")
-    private long materialId;
+    @ManyToOne
+    @JoinColumn(name = "material_id", nullable = false)
+    private Material material;
 
-    @Column(name = "ilosc")
-    private double ilosc;
+    @Column(nullable = false)
+    private int ilosc;
 
-    // Gettery i settery
-    public long getId() {
-        return id;
-    }
+    // Konstruktory
+    public PracaMaterial() {}
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getPracaId() {
-        return pracaId;
-    }
-
-    public void setPracaId(long pracaId) {
-        this.pracaId = pracaId;
-    }
-
-    public long getMaterialId() {
-        return materialId;
-    }
-
-    public void setMaterialId(long materialId) {
-        this.materialId = materialId;
-    }
-
-    public double getIlosc() {
-        return ilosc;
-    }
-
-    public void setIlosc(double ilosc) {
+    public PracaMaterial(Praca praca, Material material, int ilosc) {
+        this.praca = praca;
+        this.material = material;
         this.ilosc = ilosc;
     }
+
+    // Gettery i Settery
+    public Long getId() { return id; }
+
+    public void setId(Long id) { this.id = id; }
+
+    public Praca getPraca() { return praca; }
+
+    public void setPraca(Praca praca) { this.praca = praca; }
+
+    public Material getMaterial() { return material; }
+
+    public void setMaterial(Material material) { this.material = material; }
+
+    public int getIlosc() { return ilosc; }
+
+    public void setIlosc(int ilosc) { this.ilosc = ilosc; }
 }

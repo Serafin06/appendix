@@ -1,44 +1,31 @@
 package pl.marko.db;
 
-import pl.marko.model.Material;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import pl.marko.model.Material;
+import pl.marko.util.HibernateUtil;
 
-public class MaterialDAO extends AbstractDAO {
+import java.util.List;
 
-    public MaterialDAO(Connection connection) {
-        super(connection);
-    }
+public class MaterialDAO {
 
-    public void addMaterial(Material material) throws SQLException {
-        String sql = "INSERT INTO materialy (nazwa, cena, jednostka_miary) VALUES (?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, material.getNazwa());
-            stmt.setDouble(2, material.getCena());
-            stmt.setString(3, material.getJednostkaMiary());
-            stmt.executeUpdate();
-        }
-    }
-
-    public List<Material> getAllMaterialy() throws SQLException {
-        List<Material> materialy = new ArrayList<>();
-        String sql = "SELECT * FROM materialy";
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                Material material = new Material();
-                material.setId(rs.getLong("id"));
-                material.setNazwa(rs.getString("nazwa"));
-                material.setCena(rs.getDouble("cena"));
-                material.setJednostkaMiary(rs.getString("jednostka_miary"));
-                materialy.add(material);
+    public void addMaterial(Material material) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.persist(material);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
             }
+            e.printStackTrace();
         }
-        return materialy;
     }
 
-    // Inne metody CRUD
+    public List<Material> getAllMaterialy() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("from Material", Material.class).list();
+        }
+    }
 }

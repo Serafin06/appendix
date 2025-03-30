@@ -1,70 +1,66 @@
 package pl.marko.model;
 
+import jakarta.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "prace")
 public class Praca {
-    private long id;
-    private String adres;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "budynek_id", nullable = false)
+    private Budynek budynek;
+
+    @Column(name = "data_wykonania", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date dataWykonania;
+
+    @Column(name = "ilosc_godzin", nullable = false)
     private int iloscGodzin;
+
+    @Column(nullable = false)
     private boolean dojazd;
+
+    @Column(nullable = false)
     private double vat;
-    private String opis; // Dodane pole
 
-    // Gettery i settery dla wszystkich pól, w tym nowe pole 'opis'
-    public long getId() {
-        return id;
-    }
+    // Konstruktory
+    public Praca() {}
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getAdres() {
-        return adres;
-    }
-
-    public void setAdres(String adres) {
-        this.adres = adres;
-    }
-
-    public Date getDataWykonania() {
-        return dataWykonania;
-    }
-
-    public void setDataWykonania(Date dataWykonania) {
+    public Praca(Budynek budynek, Date dataWykonania, int iloscGodzin, boolean dojazd, double vat) {
+        this.budynek = budynek;
         this.dataWykonania = dataWykonania;
-    }
-
-    public int getIloscGodzin() {
-        return iloscGodzin;
-    }
-
-    public void setIloscGodzin(int iloscGodzin) {
         this.iloscGodzin = iloscGodzin;
-    }
-
-    public boolean isDojazd() {
-        return dojazd;
-    }
-
-    public void setDojazd(boolean dojazd) {
         this.dojazd = dojazd;
-    }
-
-    public double getVat() {
-        return vat;
-    }
-
-    public void setVat(double vat) {
         this.vat = vat;
     }
 
-    public String getOpis() {
-        return opis;
-    }
+    // Gettery i Settery
+    public Long getId() { return id; }
 
-    public void setOpis(String opis) {
-        this.opis = opis;
-    }
+    public void setId(Long id) { this.id = id; }
+
+    public Budynek getBudynek() { return budynek; }
+
+    public void setBudynek(Budynek budynek) { this.budynek = budynek; }
+
+    public Date getDataWykonania() { return dataWykonania; }
+
+    public void setDataWykonania(Date dataWykonania) { this.dataWykonania = dataWykonania; }
+
+    public int getIloscGodzin() { return iloscGodzin; }
+
+    public void setIloscGodzin(int iloscGodzin) { this.iloscGodzin = iloscGodzin; }
+
+    public boolean isDojazd() { return dojazd; }
+
+    public void setDojazd(boolean dojazd) { this.dojazd = dojazd; }
+
+    public double getVat() { return vat; }
+
+    public void setVat(double vat) { this.vat = vat; }
 }

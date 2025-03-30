@@ -13,7 +13,7 @@ public class PracaMaterialDAO {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.save(pracaMaterial);
+            session.persist(pracaMaterial);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -28,6 +28,4 @@ public class PracaMaterialDAO {
             return session.createQuery("from PracaMaterial", PracaMaterial.class).list();
         }
     }
-
-    // Inne metody CRUD
 }

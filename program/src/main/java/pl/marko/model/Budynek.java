@@ -1,14 +1,31 @@
 package pl.marko.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "budynki")
 public class Budynek {
-    private long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
     private String adres;
 
-    public long getId() {
+    // Konstruktory
+    public Budynek() {}
+
+    public Budynek(String adres) {
+        this.adres = adres;
+    }
+
+    // Gettery i Settery
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

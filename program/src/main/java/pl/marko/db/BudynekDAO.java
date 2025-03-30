@@ -1,39 +1,31 @@
 package pl.marko.db;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import pl.marko.model.Budynek;
-import java.sql.*;
-import java.util.ArrayList;
+import pl.marko.util.HibernateUtil;
+
 import java.util.List;
 
 public class BudynekDAO {
-    private Connection connection;
 
-    public BudynekDAO(Connection connection) {
-        this.connection = connection;
-    }
-
-    public void addBudynek(Budynek budynek) throws SQLException {
-        String sql = "INSERT INTO budynki (adres) VALUES (?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, budynek.getAdres());
-            stmt.executeUpdate();
-        }
-    }
-
-    public List<Budynek> getAllBudynki() throws SQLException {
-        List<Budynek> budynki = new ArrayList<>();
-        String sql = "SELECT * FROM budynki";
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                Budynek budynek = new Budynek();
-                budynek.setId(rs.getLong("id"));
-                budynek.setAdres(rs.getString("adres"));
-                budynki.add(budynek);
+    public void addBudynek(Budynek budynek) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.persist(budynek);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
             }
+            e.printStackTrace();
         }
-        return budynki;
     }
 
-    // Inne metody CRUD
+    public List<Budynek> getAllBudynki() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("from Budynek", Budynek.class).list();
+        }
+    }
 }
