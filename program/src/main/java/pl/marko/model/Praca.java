@@ -28,15 +28,19 @@ public class Praca {
     @Column(nullable = false)
     private double vat;
 
+    @Column(nullable = false, name = "praca")
+    private String praca;
+
     // Konstruktory
     public Praca() {}
 
-    public Praca(Budynek budynek, Date dataWykonania, int iloscGodzin, boolean dojazd, double vat) {
+    public Praca(Budynek budynek, Date dataWykonania, int iloscGodzin, boolean dojazd, double vat, String praca) {
         this.budynek = budynek;
         this.dataWykonania = dataWykonania;
         this.iloscGodzin = iloscGodzin;
         this.dojazd = dojazd;
         this.vat = vat;
+        this.praca = praca;
     }
 
     // Gettery i Settery
@@ -63,4 +67,12 @@ public class Praca {
     public double getVat() { return vat; }
 
     public void setVat(double vat) { this.vat = vat; }
+
+    public String getPraca() {
+        return praca;
+    }
+
+    public void setPraca(String praca) {
+        this.praca = praca;
+    }
 }
