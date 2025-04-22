@@ -1,45 +1,81 @@
 package pl.marko.apka;
 
+import pl.marko.db.PracaDAO;
+import pl.marko.model.Budynek;
+import pl.marko.model.Praca;
 import javax.swing.*;
-import java.awt.*;
+import java.util.Date;
+
 
 public class PracaOkno extends JFrame{
     private JButton dalejButton;
     private JButton wsteczButton;
     private JTextArea textArea1;
     private JPanel prOk;
+    private JButton zapiszButton;
+    private JSpinner spinnerGodz;
+    private JComboBox comboVat;
+    private JComboBox comboDojazd;
 
-    public PracaOkno() {
+    private Budynek budynek;
+    private Date data;
+
+    public PracaOkno(Budynek budynek, Date data) {
+        this.budynek = budynek;
+        this.data = data;
+
+        setContentPane(prOk);
         setTitle("Dodawanie pracy");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 350);
-        setLayout(new BorderLayout());
+        setSize(400, 300);
 
-        prOk = new JPanel();
-        prOk.setLayout(new BorderLayout());
+        comboVat.addItem(8);
+        comboVat.addItem(23);
 
-        // Pole do wpisania wykonanej pracy
-        textArea1 = new JTextArea(5, 30);
-        textArea1.setLineWrap(true);
-        textArea1.setWrapStyleWord(true);
-        JScrollPane scrollPane = new JScrollPane(textArea1);
+        comboDojazd.addItem("Tak");
+        comboDojazd.addItem("Nie");
 
-        prOk.add(new JLabel("Wpisz wykonaną pracę:"), BorderLayout.NORTH);
-        prOk.add(scrollPane, BorderLayout.CENTER);
-
-        prOk.add(wsteczButton);
-        prOk.add(dalejButton);
+        comboVat.setSelectedItem(8);
+        comboDojazd.setSelectedItem("Tak");
 
 
+
+
+        zapiszButton.addActionListener(e -> {
+            String opis = textArea1.getText();
+            int godziny = (int) spinnerGodz.getValue();
+            boolean dojazd = comboDojazd.getSelectedItem().equals("Tak");
+            int vat = (int) comboVat.getSelectedItem();
+
+            Praca praca = new Praca();
+            praca.setBudynek(budynek);
+            praca.setDataWykonania(data);
+            praca.setPraca(opis);
+            praca.setIloscGodzin(godziny);
+            praca.setDojazd(dojazd);
+            praca.setVat(vat);
+
+            try {
+                PracaDAO.addPraca(praca);
+                JOptionPane.showMessageDialog(null, "Praca zapisana!");
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Błąd przy zapisie pracy");
+            }
+        });
         wsteczButton.addActionListener(e -> {
-            new Apka();  // Powrót do pierwszego okna
-            dispose();   // Zamykamy obecne okno
+            this.dispose();
+            new Apka();
         });
 
         dalejButton.addActionListener(e -> {
-            // Możesz dodać logikę przejścia do kolejnego okna
-            JOptionPane.showMessageDialog(this, "Następne okno w przygotowaniu!");
+
+
+            this.dispose();
+
         });
+
 
 
         setVisible(true);
