@@ -16,6 +16,7 @@ public class Apka extends JFrame {
     private JButton b1Dalej;
     private JButton button2;
     private JTextField textField1;
+    private JSpinner spinner1;
     private JDateChooser datePicker;  // Zamiana na JDateChooser
 
     public Apka() {
@@ -40,9 +41,6 @@ public class Apka extends JFrame {
         okienko.add(new JLabel("Data pracy:"));
         okienko.add(datePicker);
 
-        // Przycisk "Dalej"
-        b1Dalej = new JButton("Dalej");
-        button2 = new JButton("Anuluj");
 
         JPanel panelPrzyciski = new JPanel();
         panelPrzyciski.add(b1Dalej);
@@ -86,6 +84,10 @@ public class Apka extends JFrame {
             BudynekDAO.addBudynek(budynek);
 
             JOptionPane.showMessageDialog(this, "Adres zapisany!", "Sukces", JOptionPane.INFORMATION_MESSAGE);
+
+            new PracaOkno();
+            dispose();
+
         });
 
         setVisible(true);
