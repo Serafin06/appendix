@@ -85,7 +85,7 @@ public class Apka extends JFrame {
 
             JOptionPane.showMessageDialog(this, "Adres zapisany!", "Sukces", JOptionPane.INFORMATION_MESSAGE);
 
-            new PracaOkno();
+            new PracaOkno(budynek, data); // Przekazanie adresu i daty do nowego okna
             dispose();
 
         });

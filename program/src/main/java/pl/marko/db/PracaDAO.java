@@ -9,7 +9,9 @@ import java.util.List;
 
 public class PracaDAO {
 
-    public void addPraca(Praca praca) {
+
+
+    public static void addPraca(Praca praca) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
