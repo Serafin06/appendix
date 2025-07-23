@@ -59,13 +59,14 @@ Run the main class (e.g. pl.marko.AppendixApp).
 ## Contribution
 As the project is no longer actively developed in Java, new contributions will not be merged. For the Kotlin version, please refer to the respective repository.
 ---
-## License
-[Specify your license here, e.g. MIT License]
----
+
 ## Author
+
 Serafin06
+
 ---
 ## FAQ
+
 Q: Is this project still actively maintained?
 A: No, the project has been superseded by a Kotlin version and is no longer actively maintained.
 
@@ -74,6 +75,7 @@ A: Please check your other repositories or contact the author for more info.
 ---
 
 ## Usage Instructions
+
 Launch the application.
 
 Input building address or select existing one.
