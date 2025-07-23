@@ -68,10 +68,13 @@ Serafin06
 ## FAQ
 
 Q: Is this project still actively maintained?
+
 A: No, the project has been superseded by a Kotlin version and is no longer actively maintained.
 
 Q: Where can I find the Kotlin version?
+
 A: Please check your other repositories or contact the author for more info.
+
 ---
 
 ## Usage Instructions
